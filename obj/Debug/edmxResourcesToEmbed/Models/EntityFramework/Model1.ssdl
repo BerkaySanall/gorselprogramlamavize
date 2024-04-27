@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Student_DbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Tbl_Dersler">
+    <Key>
+      <PropertyRef Name="DersId" />
+    </Key>
+    <Property Name="DersId" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DersAd" Type="varchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tbl_Kulupler">
+    <Key>
+      <PropertyRef Name="KulupId" />
+    </Key>
+    <Property Name="KulupId" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="KulupAd" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="KulupKont" Type="smallint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tbl_Notlar">
+    <Key>
+      <PropertyRef Name="NotId" />
+    </Key>
+    <Property Name="NotId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DersId" Type="tinyint" Nullable="false" />
+    <Property Name="OgrId" Type="int" Nullable="false" />
+    <Property Name="Sınav1" Type="tinyint" Nullable="false" />
+    <Property Name="Sınav2" Type="tinyint" Nullable="false" />
+    <Property Name="Sınav3" Type="tinyint" Nullable="false" />
+    <Property Name="Proje" Type="tinyint" Nullable="false" />
+    <Property Name="Ortalama" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Durum" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tbl_Ogrenci">
+    <Key>
+      <PropertyRef Name="OgrenciId" />
+    </Key>
+    <Property Name="OgrenciId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OgrAd" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="OgrSoyad" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="OgrResim" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="OgrCinsiyet" Type="varchar" MaxLength="5" Nullable="false" />
+    <Property Name="OgrKulup" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Tbl_Notlar_Tbl_Dersler">
+    <End Role="Tbl_Dersler" Type="Self.Tbl_Dersler" Multiplicity="1" />
+    <End Role="Tbl_Notlar" Type="Self.Tbl_Notlar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Dersler">
+        <PropertyRef Name="DersId" />
+      </Principal>
+      <Dependent Role="Tbl_Notlar">
+        <PropertyRef Name="DersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_Notlar_Tbl_Ogrenci">
+    <End Role="Tbl_Ogrenci" Type="Self.Tbl_Ogrenci" Multiplicity="1" />
+    <End Role="Tbl_Notlar" Type="Self.Tbl_Notlar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Ogrenci">
+        <PropertyRef Name="OgrenciId" />
+      </Principal>
+      <Dependent Role="Tbl_Notlar">
+        <PropertyRef Name="OgrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_Ogrenci_Tbl_Kulupler">
+    <End Role="Tbl_Kulupler" Type="Self.Tbl_Kulupler" Multiplicity="1" />
+    <End Role="Tbl_Ogrenci" Type="Self.Tbl_Ogrenci" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Kulupler">
+        <PropertyRef Name="KulupId" />
+      </Principal>
+      <Dependent Role="Tbl_Ogrenci">
+        <PropertyRef Name="OgrKulup" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Student_DbModelStoreContainer">
+    <EntitySet Name="Tbl_Dersler" EntityType="Self.Tbl_Dersler" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Kulupler" EntityType="Self.Tbl_Kulupler" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Notlar" EntityType="Self.Tbl_Notlar" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Ogrenci" EntityType="Self.Tbl_Ogrenci" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Tbl_Notlar_Tbl_Dersler" Association="Self.FK_Tbl_Notlar_Tbl_Dersler">
+      <End Role="Tbl_Dersler" EntitySet="Tbl_Dersler" />
+      <End Role="Tbl_Notlar" EntitySet="Tbl_Notlar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_Notlar_Tbl_Ogrenci" Association="Self.FK_Tbl_Notlar_Tbl_Ogrenci">
+      <End Role="Tbl_Ogrenci" EntitySet="Tbl_Ogrenci" />
+      <End Role="Tbl_Notlar" EntitySet="Tbl_Notlar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_Ogrenci_Tbl_Kulupler" Association="Self.FK_Tbl_Ogrenci_Tbl_Kulupler">
+      <End Role="Tbl_Kulupler" EntitySet="Tbl_Kulupler" />
+      <End Role="Tbl_Ogrenci" EntitySet="Tbl_Ogrenci" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
